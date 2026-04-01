@@ -1,0 +1,41 @@
+logger:
+  file:
+    path: /home/dalibor/open5gs/install/var/log/open5gs/sepp1.log
+#  level: info   # fatal|error|warn|info(default)|debug|trace
+
+global:
+  max:
+    ue: 1024  # The number of UE can be increased depending on memory size.
+#    peer: 64
+
+sepp:
+    default:
+      tls:
+        server:
+          private_key: /home/dalibor/open5gs/build/configs/open5gs/tls/sepp2.key
+          cert: /home/dalibor/open5gs/build/configs/open5gs/tls/sepp2.crt
+        client:
+          cacert: /home/dalibor/open5gs/build/configs/open5gs/tls/ca.crt
+    sbi:
+      server:
+        - address: 127.0.0.250
+          port: 7777
+      client:
+        scp:
+          - uri: http://127.0.0.200:7777
+    n32:
+      server:
+        - sender: sepp2.localdomain
+          scheme: https
+          address: 10.10.2.251
+          n32f:
+            scheme: https
+            address: 10.10.2.252
+      client:
+        sepp:
+          - receiver: sepp1.localdomain
+            uri: https://sepp1.localdomain
+            resolve: 10.10.1.251
+            n32f:
+              uri: https://sepp1.localdomain
+              resolve: 10.10.1.252
